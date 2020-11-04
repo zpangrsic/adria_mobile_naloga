@@ -28,9 +28,9 @@ class PostsController extends Controller
         $post = new Post();
         $post->fill($request->all());
         if ($post->save()) {
-            return response($post->toArray());
+            return response(['data' => $post->toArray()]);
         }
-        return response("Failed to create Post", 400);
+        return response(['error' => "Failed to create Post"], 400);
     }
 
     /**
@@ -99,7 +99,7 @@ class PostsController extends Controller
                 $status = 400;
             }
         }
-        return response(['message' => $message], $status);
+        return response(['message' => $message, 'status' => ($status == 200)? 'ok': 'error'], $status);
 
     }
 }
