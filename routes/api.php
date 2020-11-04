@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::post('posts', [\App\Http\Controllers\PostsController::class, 'create']);
+    Route::post('posts/create', [\App\Http\Controllers\PostsController::class, 'create']);
     Route::post('posts/delete/{id}', [\App\Http\Controllers\PostsController::class, 'destroy']);
 });
