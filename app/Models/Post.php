@@ -17,6 +17,6 @@ class Post extends Model
 
     public static function getListData()
     {
-        return Post::query()->paginate();
+        return Post::query()->orderBy('created_at', 'desc')->paginate();
     }
 }

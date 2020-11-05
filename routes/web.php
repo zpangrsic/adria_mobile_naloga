@@ -12,13 +12,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::prefix('admin')->group(function (){
 
-Route::prefix('admin')->group(function (){
-    Route::get('posts', [\App\Http\Controllers\PostsController::class, 'index']);
-    Route::post('posts', [\App\Http\Controllers\PostsController::class, 'create']);
-    Route::get('posts/{id}', [\App\Http\Controllers\PostsController::class, 'show']);
-    Route::post('posts/{id}', [\App\Http\Controllers\PostsController::class, 'update']);
-    Route::post('posts/delete/{id}', [\App\Http\Controllers\PostsController::class, 'destroy']);
+        Route::get('posts', [\App\Http\Controllers\PostsInertiaController::class, 'index'])->name('admin.posts');
+        Route::get('posts/create', [\App\Http\Controllers\PostsInertiaController::class, 'create'])->name('admin.posts.create');
+        Route::get('posts/{id}', [\App\Http\Controllers\PostsInertiaController::class, 'show'])->name('admin.posts.record');
+        Route::get('posts/edit/{id}', [\App\Http\Controllers\PostsInertiaController::class, 'edit'])->name('admin.posts.record.edit');
+
+        Route::post('posts/create', [\App\Http\Controllers\PostsInertiaController::class, 'store']);
+        Route::post('posts/{post}', [\App\Http\Controllers\PostsInertiaController::class, 'update']);
+        Route::post('posts/delete/{id}', [\App\Http\Controllers\PostsInertiaController::class, 'destroy']);
+    });
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', function () {
+            return redirect('admin/posts');
+        })->name('dashboard');
+    });
 });
 
 Route::prefix('posts')->group(function () {
